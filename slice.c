@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #define DATA(c,x,y,ax,ay) (*(unsigned short*)&mem[c * (nsizex * nsizey * nangx * nangy * 2) + x * (nsizey * nangx * nangy * 2) + y * (nangx * nangy * 2) + ax * (nangy * 2) + ay * 2])
 
@@ -18,15 +17,24 @@ int main(int argc, char *argv[])
     printf ("Read %d bytes, needed %d\n", r, size);
     fclose(f);
 
-    f = fopen (argv[7], "wb");
-    int c, x, y;
-    for (y=0; y<nsizey; y++) {
-        for (x=0; x<nsizex; x++) {
-            for (c=0; c<3; c++) {
-                unsigned char b = DATA(c,x,y,7,7) >> 8;
-                fwrite(&b, 1, 1, f);
+    int angx, angy;
+    for (angy=0; angy<nangy; angy++) {
+        for (angx=0; angx<nangx; angx++) {
+            char fname[256];
+            sprintf(fname, argv[7], angx+nangx*angy);
+            f = fopen (fname, "wb");
+            int c, x, y;
+            for (y=0; y<nsizey; y++) {
+                for (x=0; x<nsizex; x++) {
+                    for (c=0; c<3; c++) {
+                        unsigned char b = DATA(c,x,y,angx,angy) >> 8;
+                        fwrite(&b, 1, 1, f);
+                    }
+                }
+                // Hack for GStreamer's ROUNDUP_2
+                fwrite(&c, 1, 1, f);
             }
+            fclose(f);
         }
     }
-    fclose(f);
 }
