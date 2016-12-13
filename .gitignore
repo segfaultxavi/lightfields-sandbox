@@ -1,3 +1,6 @@
 *.data
 *.swp
+*.raw*
 slice
+out
+psnr

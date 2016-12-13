@@ -18,23 +18,24 @@ int main(int argc, char *argv[])
     fclose(f);
 
     int angx, angy;
+    char fname[256];
+    sprintf(fname, "%s.reorder", argv[1]);
+    f = fopen (fname, "wb");
     for (angy=0; angy<nangy; angy++) {
         for (angx=0; angx<nangx; angx++) {
-            char fname[256];
-            sprintf(fname, argv[7], angx+nangx*angy);
-            f = fopen (fname, "wb");
+            int eangx = (angy & 1) ? angx : nangx - 1 - angx;
             int c, x, y;
             for (y=0; y<nsizey; y++) {
                 for (x=0; x<nsizex; x++) {
-                    for (c=0; c<3; c++) {
-                        unsigned char b = DATA(c,x,y,angx,angy) >> 8;
+                    for (c=0; c<ncom; c++) {
+                        unsigned char b = DATA(c,x,y,eangx,angy) >> 8;
                         fwrite(&b, 1, 1, f);
                     }
                 }
                 // Hack for GStreamer's ROUNDUP_2
                 fwrite(&c, 1, 1, f);
             }
-            fclose(f);
         }
     }
+    fclose(f);
 }
