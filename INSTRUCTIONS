@@ -1,0 +1,6 @@
+Step by step:
+
+./mat2raw.sh ../4D_LF/Nature/Swans_2.mat Swans_2.raw
+./slice Swans_2.raw 3 625 434 15 15
+./scalenv12.sh Swans_2.raw.reorder 
+./skip Swans_2.raw.reorder.nv12 624 432 15 15 Swans_2.raw.reorder.nv12.skip

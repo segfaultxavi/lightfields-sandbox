@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+// Bush.reorder
 #define OFFS(c,x,y,ax,ay) ((ay) * (nangx * nsizey * (nsizex * ncom + 1)) + (ax) * (nsizey * (nsizex * ncom + 1)) + (y) * (nsizex * ncom + 1) + (x) * (ncom) + (c))
 
 int main(int argc, char *argv[])

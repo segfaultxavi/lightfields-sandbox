@@ -3,6 +3,7 @@
 
 #define DATA(c,x,y,ax,ay) (*(unsigned short*)&mem[c * (nsizex * nsizey * nangx * nangy * 2) + x * (nsizey * nangx * nangy * 2) + y * (nangx * nangy * 2) + ax * (nangy * 2) + ay * 2])
 
+// slice Bush.raw 3 625 434 15 15
 int main(int argc, char *argv[])
 {
     FILE *f = fopen(argv[1], "rb");
